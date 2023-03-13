@@ -25,7 +25,7 @@ public class BoardUI {
         int a = 1;
         for (int x = 0; x < Board.BOARD_SIZE; x++) {
             for (int y = 0; y < Board.BOARD_SIZE; y++) {
-                System.out.print("|" + x + ","+ y);
+                System.out.print("|" + y + ","+ x);
                 a+=1;
             }
             System.out.print("|\n");

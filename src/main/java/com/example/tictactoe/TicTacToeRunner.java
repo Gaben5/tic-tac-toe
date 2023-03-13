@@ -17,6 +17,7 @@ public class TicTacToeRunner {
         System.out.println(boardUI.getDescription());
         System.out.println(boardUI.getInstruction() + "\nlegend");
         boardUI.legend();
+        board.clearBoard();
 
         System.out.println();
 
@@ -24,6 +25,7 @@ public class TicTacToeRunner {
 
         int enemy = gameEngine.chooseEnemy();
         gameEngine.game(enemy);
+        System.out.println("You win");
     }
 
     public static void main(String[] args) {

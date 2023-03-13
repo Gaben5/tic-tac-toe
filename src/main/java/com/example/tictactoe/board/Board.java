@@ -40,7 +40,7 @@ public class Board {
         int isZero = 0;
         for (int y = 0; y < Board.BOARD_SIZE; y++) {
             for (int x = 0; x < Board.BOARD_SIZE; x++) {
-                if (gameBoard[x][y] != null){
+                if (getSymbol(x,y) != null){
                     isZero += 0;
                 }else {
                     isZero += 1;
