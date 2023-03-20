@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class TicTacToeRunner {
     private Scanner sc = new Scanner(System.in);
-    private int symbol;
     private void startGame(){
         boolean end = false;
         Board board = new Board();
@@ -22,10 +21,9 @@ public class TicTacToeRunner {
         System.out.println();
 
         gameEngine.chooseSymbol();
-
         int enemy = gameEngine.chooseEnemy();
         gameEngine.game(enemy);
-        System.out.println("You win");
+        gameEngine.whoWins();
     }
 
     public static void main(String[] args) {

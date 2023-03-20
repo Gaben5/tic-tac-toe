@@ -1,12 +1,11 @@
 package com.example.tictactoe.board;
 
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameEngine {
+    private Symbol symbolWinner = null;
     private Symbol userSymbol = null;
     private Symbol playerTwoSymbol = null;
-    private boolean isEnd = false;
     private Board board = new Board();
     private BoardUI boardUI = new BoardUI(board);
     private Scanner sc = new Scanner(System.in);
@@ -14,6 +13,9 @@ public class GameEngine {
     private boolean end = false;
     private boolean endMove = false;
     private int symbolNumber;
+
+
+
 
     public void chooseSymbol(){
         while (!end) {
@@ -23,6 +25,7 @@ public class GameEngine {
                 end = true;
             }
         }
+
         switch (symbolNumber) {
             case 0: userSymbol = Symbol.O;
                 playerTwoSymbol = Symbol.X;
@@ -57,8 +60,7 @@ public class GameEngine {
             int col = sc.nextInt();
             System.out.println("Choose row");
             int row = sc.nextInt();
-            System.out.println(board.getSymbol(row,col));
-        if (board.getSymbol(row,col) == null){
+        if (board.getSymbol(col,row) == null){
                 board.userMove(col, row, getUserSymbol());
                 endMove = true;
             }
@@ -74,7 +76,7 @@ public class GameEngine {
             int col = sc.nextInt();
             System.out.println("Choose row");
             int row = sc.nextInt();
-            if (board.getSymbol(row,col) == null){
+            if (board.getSymbol(col,row) == null){
                 board.userMove(col, row, getPlayerTwoSymbol());
                 endMove = true;
             }
@@ -86,7 +88,7 @@ public class GameEngine {
         while (!endMove) {
             int col = random.nextInt(3);
             int row = random.nextInt(3);
-            if (board.getSymbol(row, col) == null) {
+            if (board.getSymbol(col, row) == null) {
                 board.userMove(col, row, getPlayerTwoSymbol());
               endMove = true;
             }
@@ -98,24 +100,42 @@ public class GameEngine {
     public void game(int enemy){
         switch (enemy){
             case 1:
-                while (board.isAvaliableMove()){
+                while (board.isGameEnd()  && board.isAvaliableMove()){
                     userMove();
-                    if (board.isAvaliableMove()) {
+                    checkWinner(userSymbol);
+                    if (board.isAvaliableMove() && board.isGameEnd()) {
                         playerTwoMove();
+                        checkWinner(playerTwoSymbol);
                     }
                 }
                 break;
             case 2:
-                while (board.isAvaliableMove()){
+                while (board.isGameEnd()  && board.isAvaliableMove()){
                       userMove();
-                    if (board.isAvaliableMove()) {
+                     checkWinner(userSymbol);
+                    if (board.isAvaliableMove() && board.isGameEnd()) {
                         computerMove();
+                        checkWinner(playerTwoSymbol);
                     }
                 }
                 break;
         }
     }
 
+    public void whoWins(){
+        if (symbolWinner == userSymbol){
+            System.out.println("You Win!");
+        }else {
+            System.out.println("Player 2 wins");
+        }
+    }
+
+    public void checkWinner(Symbol symbol){
+        board.isGameOverHorizontal(symbol);
+        board.isGameOverVertical(symbol);
+        board.isGameOverSlant(symbol);
+        symbolWinner = symbol;
+    }
 
 
     public Symbol getUserSymbol() {
