@@ -3,7 +3,6 @@ package com.example.tictactoe.board;
 import java.util.*;
 
 public class GameEngine {
-    private Symbol symbolWinner = null;
     private Symbol userSymbol = null;
     private Symbol playerTwoSymbol = null;
     private Board board = new Board();
@@ -12,7 +11,6 @@ public class GameEngine {
     private Random random = new Random();
     private boolean end = false;
     private boolean endMove = false;
-    private boolean isNextMove = true;
     private int symbolNumber;
 
 
@@ -101,23 +99,18 @@ public class GameEngine {
     public void game(int enemy){
         switch (enemy){
             case 1:
-                while (board.isAvaliableMove() || isNextMove){
+                while (board.isAvaliableMove() && isGameWinner() == null){
                     userMove();
-                    isGameWinner(userSymbol);
-                    if (board.isAvaliableMove()) {
+                    if (board.isAvaliableMove() && isGameWinner() == null) {
                         playerTwoMove();
-                        isGameWinner(playerTwoSymbol);
                     }
                 }
                 break;
             case 2:
-                while ( board.isAvaliableMove() && isNextMove){
+                while ( board.isAvaliableMove() && isGameWinner() == null){
                       userMove();
-                     isGameWinner(userSymbol);
-                    System.out.println(board.isAvaliableMove() + "    " + isNextMove);
-                    if (board.isAvaliableMove() && isNextMove) {
+                    if (board.isAvaliableMove() && isGameWinner() == null) {
                         computerMove();
-                        isGameWinner(playerTwoSymbol);
                     }
                 }
                 break;
@@ -125,8 +118,8 @@ public class GameEngine {
     }
 
     public void whoWins(){
-        if (!isNextMove) {
-            if (symbolWinner == userSymbol) {
+        if (isGameWinner() != null) {
+            if (isGameWinner() == userSymbol) {
                 System.out.println("You Win!");
             } else {
                 System.out.println("Player 2 wins");
@@ -136,12 +129,13 @@ public class GameEngine {
         }
     }
 
-    public void isGameWinner(Symbol symbol){
-         if (isGameOverHorizontal(symbol) || isGameOverVertical(symbol) || isGameOverSlant(symbol)) {
-             isNextMove = false;
-             symbolWinner = symbol;
+    public Symbol isGameWinner(){
+         if (isGameOverHorizontal(Symbol.X) || isGameOverVertical(Symbol.X) || isGameOverSlant(Symbol.X)) {
+             return Symbol.X;
+         } else if (isGameOverHorizontal(Symbol.O) || isGameOverVertical(Symbol.O) || isGameOverSlant(Symbol.O)) {
+             return Symbol.O;
          } else {
-             isNextMove = true;
+             return null;
          }
     }
     public boolean isGameOverVertical(Symbol symbol){
