@@ -12,6 +12,7 @@ public class GameEngine {
     private Random random = new Random();
     private boolean end = false;
     private boolean endMove = false;
+    private boolean isNextMove = true;
     private int symbolNumber;
 
 
@@ -100,22 +101,23 @@ public class GameEngine {
     public void game(int enemy){
         switch (enemy){
             case 1:
-                while (board.isGameEnd()  && board.isAvaliableMove()){
+                while (board.isAvaliableMove() || isNextMove){
                     userMove();
-                    checkWinner(userSymbol);
-                    if (board.isAvaliableMove() && board.isGameEnd()) {
+                    isGameWinner(userSymbol);
+                    if (board.isAvaliableMove()) {
                         playerTwoMove();
-                        checkWinner(playerTwoSymbol);
+                        isGameWinner(playerTwoSymbol);
                     }
                 }
                 break;
             case 2:
-                while (board.isGameEnd()  && board.isAvaliableMove()){
+                while ( board.isAvaliableMove() && isNextMove){
                       userMove();
-                     checkWinner(userSymbol);
-                    if (board.isAvaliableMove() && board.isGameEnd()) {
+                     isGameWinner(userSymbol);
+                    System.out.println(board.isAvaliableMove() + "    " + isNextMove);
+                    if (board.isAvaliableMove() && isNextMove) {
                         computerMove();
-                        checkWinner(playerTwoSymbol);
+                        isGameWinner(playerTwoSymbol);
                     }
                 }
                 break;
@@ -123,18 +125,60 @@ public class GameEngine {
     }
 
     public void whoWins(){
-        if (symbolWinner == userSymbol){
-            System.out.println("You Win!");
+        if (!isNextMove) {
+            if (symbolWinner == userSymbol) {
+                System.out.println("You Win!");
+            } else {
+                System.out.println("Player 2 wins");
+            }
         }else {
-            System.out.println("Player 2 wins");
+            System.out.println("Draw!");
         }
     }
 
-    public void checkWinner(Symbol symbol){
-        board.isGameOverHorizontal(symbol);
-        board.isGameOverVertical(symbol);
-        board.isGameOverSlant(symbol);
-        symbolWinner = symbol;
+    public void isGameWinner(Symbol symbol){
+         if (isGameOverHorizontal(symbol) || isGameOverVertical(symbol) || isGameOverSlant(symbol)) {
+             isNextMove = false;
+             symbolWinner = symbol;
+         } else {
+             isNextMove = true;
+         }
+    }
+    public boolean isGameOverVertical(Symbol symbol){
+        for (int x = 0; x < board.BOARD_SIZE; x++) {
+            int check = 0;
+            for (int y = 0; y < board.BOARD_SIZE; y++) {
+                if (symbol.equals(board.getSymbol(x,y))){
+                    check+=1;
+                }
+            }
+            if (check == 3){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isGameOverHorizontal(Symbol symbol){
+
+        for (int y = 0; y < board.BOARD_SIZE; y++) {
+            int check = 0;
+            for (int x = 0; x < board.BOARD_SIZE; x++) {
+                if (symbol.equals(board.getSymbol(x,y))){
+                    check+=1;
+                }
+            }
+            if (check == 3){
+                return true;
+            }
+        }return false;
+    }
+
+    public boolean isGameOverSlant(Symbol symbol){
+        if ((board.getSymbol(0,0) == symbol && board.getSymbol(1,1) == symbol && board.getSymbol(2,2) == symbol) ||
+                (board.getSymbol(2,0) == symbol && board.getSymbol(1,1) == symbol && board.getSymbol(0,2) == symbol)){
+            return  true;
+        }return false;
     }
 
 
