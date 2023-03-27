@@ -1,7 +1,7 @@
 package com.example.tictactoe.board;
 
 public class BoardUI {
-    private Board board;
+    private final Board board;
 
     public BoardUI(Board board) {
         this.board = board;

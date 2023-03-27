@@ -7,12 +7,10 @@ import com.example.tictactoe.board.GameEngine;
 import java.util.Scanner;
 
 public class TicTacToeRunner {
-    private Scanner sc = new Scanner(System.in);
     private void startGame(){
-        boolean end = false;
         Board board = new Board();
         BoardUI boardUI = new BoardUI(board);
-        GameEngine gameEngine = new GameEngine();
+        GameEngine gameEngine = new GameEngine(board, boardUI);
         System.out.println(boardUI.getDescription());
         System.out.println(boardUI.getInstruction() + "\nlegend");
         boardUI.legend();

@@ -12,6 +12,8 @@ public class GameEngineSuiteTests {
     void WinsOInRow(){
         //Given
         Board board = new Board();
+        BoardUI boardUI = new BoardUI(board);
+        GameEngine gameEngine = new GameEngine(board, boardUI);
         //When
         board.userMove(0,0, Symbol.O);
         board.userMove(1,1, Symbol.X);
@@ -19,15 +21,15 @@ public class GameEngineSuiteTests {
         board.userMove(2,2, Symbol.X);
         board.userMove(2,0, Symbol.O);
         //Then
-        Assertions.assertEquals(Symbol.O,board.getSymbol(0,0));
-        Assertions.assertEquals(Symbol.O,board.getSymbol(1,0));
-        Assertions.assertEquals(Symbol.O,board.getSymbol(2,0));
+        Assertions.assertTrue(gameEngine.isGameOverHorizontal(Symbol.O));
     }
 
     @Test
     void WinsXInColumns(){
         //Given
         Board board = new Board();
+        BoardUI boardUI = new BoardUI(board);
+        GameEngine gameEngine = new GameEngine(board, boardUI);
         //When
         board.userMove(0,0, Symbol.X);
         board.userMove(1,1, Symbol.O);
@@ -35,15 +37,15 @@ public class GameEngineSuiteTests {
         board.userMove(2,2, Symbol.O);
         board.userMove(0,2, Symbol.X);
         //Then
-        Assertions.assertEquals(Symbol.X,board.getSymbol(0,0));
-        Assertions.assertEquals(Symbol.X,board.getSymbol(0,1));
-        Assertions.assertEquals(Symbol.X,board.getSymbol(0,2));
+        Assertions.assertTrue(gameEngine.isGameOverVertical(Symbol.X));
     }
 
     @Test
     void WinsXSlant(){
         //Given
         Board board = new Board();
+        BoardUI boardUI = new BoardUI(board);
+        GameEngine gameEngine = new GameEngine(board, boardUI);
         //When
         board.userMove(0,0, Symbol.X);
         board.userMove(1,1, Symbol.X);
@@ -51,8 +53,6 @@ public class GameEngineSuiteTests {
         board.userMove(2,2, Symbol.X);
         board.userMove(2,0, Symbol.O);
         //Then
-        Assertions.assertEquals(Symbol.X,board.getSymbol(0,0));
-        Assertions.assertEquals(Symbol.X,board.getSymbol(1,1));
-        Assertions.assertEquals(Symbol.X,board.getSymbol(2,2));
+        Assertions.assertTrue(gameEngine.isGameOverSlant(Symbol.X));
     }
 }

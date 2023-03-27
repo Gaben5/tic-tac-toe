@@ -5,16 +5,18 @@ import java.util.*;
 public class GameEngine {
     private Symbol userSymbol = null;
     private Symbol playerTwoSymbol = null;
-    private Board board = new Board();
-    private BoardUI boardUI = new BoardUI(board);
-    private Scanner sc = new Scanner(System.in);
-    private Random random = new Random();
+    private Board board;
+    private BoardUI boardUI;
+    private final Scanner sc = new Scanner(System.in);
+    private final Random random = new Random();
     private boolean end = false;
     private boolean endMove = false;
     private int symbolNumber;
 
-
-
+    public GameEngine(Board board, BoardUI boardUI) {
+        this.board = board;
+        this.boardUI = boardUI;
+    }
 
     public void chooseSymbol(){
         while (!end) {
@@ -97,23 +99,23 @@ public class GameEngine {
     }
 
     public void game(int enemy){
-        switch (enemy){
-            case 1:
-                while (board.isAvaliableMove() && isGameWinner() == null){
+        switch (enemy) {
+            case 1 -> {
+                while (board.isAvaliableMove() && isGameWinner() == null) {
                     userMove();
                     if (board.isAvaliableMove() && isGameWinner() == null) {
                         playerTwoMove();
                     }
                 }
-                break;
-            case 2:
-                while ( board.isAvaliableMove() && isGameWinner() == null){
-                      userMove();
+            }
+            case 2 -> {
+                while (board.isAvaliableMove() && isGameWinner() == null) {
+                    userMove();
                     if (board.isAvaliableMove() && isGameWinner() == null) {
                         computerMove();
                     }
                 }
-                break;
+            }
         }
     }
 
@@ -139,9 +141,9 @@ public class GameEngine {
          }
     }
     public boolean isGameOverVertical(Symbol symbol){
-        for (int x = 0; x < board.BOARD_SIZE; x++) {
+        for (int x = 0; x < Board.BOARD_SIZE; x++) {
             int check = 0;
-            for (int y = 0; y < board.BOARD_SIZE; y++) {
+            for (int y = 0; y < Board.BOARD_SIZE; y++) {
                 if (symbol.equals(board.getSymbol(x,y))){
                     check+=1;
                 }
@@ -155,9 +157,9 @@ public class GameEngine {
 
     public boolean isGameOverHorizontal(Symbol symbol){
 
-        for (int y = 0; y < board.BOARD_SIZE; y++) {
+        for (int y = 0; y < Board.BOARD_SIZE; y++) {
             int check = 0;
-            for (int x = 0; x < board.BOARD_SIZE; x++) {
+            for (int x = 0; x < Board.BOARD_SIZE; x++) {
                 if (symbol.equals(board.getSymbol(x,y))){
                     check+=1;
                 }
@@ -169,10 +171,8 @@ public class GameEngine {
     }
 
     public boolean isGameOverSlant(Symbol symbol){
-        if ((board.getSymbol(0,0) == symbol && board.getSymbol(1,1) == symbol && board.getSymbol(2,2) == symbol) ||
-                (board.getSymbol(2,0) == symbol && board.getSymbol(1,1) == symbol && board.getSymbol(0,2) == symbol)){
-            return  true;
-        }return false;
+        return (board.getSymbol(0, 0) == symbol && board.getSymbol(1, 1) == symbol && board.getSymbol(2, 2) == symbol) ||
+                (board.getSymbol(2, 0) == symbol && board.getSymbol(1, 1) == symbol && board.getSymbol(0, 2) == symbol);
     }
 
 
