@@ -3,10 +3,7 @@ package com.example.tictactoe;
 import com.example.tictactoe.board.Board;
 import com.example.tictactoe.board.BoardUI;
 import com.example.tictactoe.board.GameEngine;
-
-import java.util.Scanner;
-
-public class TicTacToeRunner {
+public class TicTacToeRunner{
     private void startGame(){
         Board board = new Board();
         BoardUI boardUI = new BoardUI(board);
@@ -15,9 +12,7 @@ public class TicTacToeRunner {
         System.out.println(boardUI.getInstruction() + "\nlegend");
         boardUI.legend();
         board.clearBoard();
-
         System.out.println();
-
         gameEngine.chooseSymbol();
         int enemy = gameEngine.chooseEnemy();
         gameEngine.game(enemy);

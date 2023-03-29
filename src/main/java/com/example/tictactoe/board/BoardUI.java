@@ -2,15 +2,9 @@ package com.example.tictactoe.board;
 
 public class BoardUI {
     private final Board board;
-
     public BoardUI(Board board) {
         this.board = board;
     }
-
-    private final String description = "This is Tic-Tac-Toe game";
-    private final String instruction = "Objective: Have players place their 3 " +
-            "assigned marks (X or O) in a continuous line, either vertically, horizontally or diagonally.";
-
     public void printBoard(){
         for (int y = 0; y < Board.BOARD_SIZE; y++) {
              for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -20,7 +14,6 @@ public class BoardUI {
             System.out.print("|\n");
         }
     }
-
     public void legend(){
         int a = 1;
         for (int x = 0; x < Board.BOARD_SIZE; x++) {
@@ -31,12 +24,11 @@ public class BoardUI {
             System.out.print("|\n");
         }
     }
-
     public String getDescription() {
-        return description;
+        return "This is Tic-Tac-Toe game";
     }
-
     public String getInstruction() {
-        return instruction;
+        return "Objective: Have players place their 3 " +
+                    "assigned marks (X or O) in a continuous line, either vertically, horizontally or diagonally.";
     }
 }
