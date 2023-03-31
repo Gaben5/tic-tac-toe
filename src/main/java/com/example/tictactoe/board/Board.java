@@ -4,8 +4,6 @@ public class Board {
     private final Symbol[][] gameBoard = new Symbol[BOARD_SIZE][BOARD_SIZE];
     private Symbol player1Symbol = null;
     private Symbol player2Symbol = null;
-
-
     public Board() {
     }
     public Symbol getSymbol(int x, int y) {
@@ -18,7 +16,6 @@ public class Board {
     public void userMove(int a, int b, Symbol symbol){
                 gameBoard[a][b] = symbol;
     }
-
     public void clearBoard(){
         for (int y = 0; y < BOARD_SIZE; y++) {
             for (int x = 0; x < BOARD_SIZE; x++) {
@@ -40,19 +37,15 @@ public class Board {
         }
         return isZero != 0;
     }
-
     public Symbol getPlayer1Symbol() {
         return player1Symbol;
     }
-
     public Symbol getPlayer2Symbol() {
         return player2Symbol;
     }
-
     public void setPlayer1Symbol(Symbol player1Symbol) {
         this.player1Symbol = player1Symbol;
     }
-
     public void setPlayer2Symbol(Symbol player2Symbol) {
         this.player2Symbol = player2Symbol;
     }

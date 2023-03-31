@@ -2,28 +2,23 @@ package com.example.tictactoe.board;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.*;
 import java.util.*;
-
 public class GameEngine {
     private Symbol userSymbol = null;
     private Symbol playerTwoSymbol = null;
     private Board board;
-    private final BoardUI boardUI;
+    private BoardUI boardUI;
     private final Scanner sc = new Scanner(System.in);
     private final Random random = new Random();
     private boolean end = false;
     private boolean endMove = false;
     private int symbolNumber;
     File savedHashMaps = new File("ranking.txt");
-    Map<String, Long> map = new HashMap<>();
-
     public GameEngine(Board board, BoardUI boardUI) {
         this.board = board;
         this.boardUI = boardUI;
     }
-
     public void chooseSymbol() {
         while (!end) {
             System.out.println("Choose your symbol 0->O ; 1->X ; 2-> load last game");
@@ -32,7 +27,6 @@ public class GameEngine {
                 end = true;
             }
         }
-
         switch (symbolNumber) {
             case 0 -> {
                 userSymbol = Symbol.O;
@@ -47,18 +41,17 @@ public class GameEngine {
                 board.setPlayer2Symbol(playerTwoSymbol);
             }
             case 2 -> {
-                Board board2 = loadGame(); //naprawic tu cos
-                BoardUI boardUI1 = new BoardUI(board2);
+                board = loadGame(); //naprawic tu cos
+                boardUI = new BoardUI(board);
                 userSymbol = board.getPlayer1Symbol();
                 playerTwoSymbol = board.getPlayer2Symbol();
-                boardUI1.printBoard();
+                boardUI.printBoard();
 
             }
         }
         System.out.println("Your symbol: " + userSymbol);
         System.out.println("Player 2 symbol: " + playerTwoSymbol);
     }
-
     public int chooseEnemy() {
         int x = 100000;
         end = false;
@@ -70,11 +63,9 @@ public class GameEngine {
             if (x == 1 || x == 2) {
                 end = true;
             }
-
         }
         return x;
     }
-
     public void userMove() {
         System.out.println("Player1 move");
         while (!endMove) {
@@ -92,14 +83,12 @@ public class GameEngine {
             if (board.getSymbol(col, row) == null) {
                 board.userMove(col, row, getUserSymbol());
                 endMove = true;
-
             }
         }
         endMove = false;
-        String jsonBoard = mapToJson(board);
+        mapToJson(board);
         boardUI.printBoard();
     }
-
     public void playerTwoMove() {
         System.out.println("Player2 move");
         while (!endMove) {
@@ -115,7 +104,6 @@ public class GameEngine {
         endMove = false;
         boardUI.printBoard();
     }
-
     public void computerMove() {
         while (!endMove) {
             int col = random.nextInt(3);
@@ -128,7 +116,6 @@ public class GameEngine {
         endMove = false;
         boardUI.printBoard();
     }
-
     public void game(int enemy) {
         switch (enemy) {
             case 1 -> {
@@ -142,7 +129,6 @@ public class GameEngine {
             case 2 -> {
                 while (board.isAvaliableMove() && isGameWinner() == null) {
                     userMove();
-                    //saveMap();
                     if (board.isAvaliableMove() && isGameWinner() == null) {
                         computerMove();
                     }
@@ -150,7 +136,6 @@ public class GameEngine {
             }
         }
     }
-
     public void whoWins() {
         if (isGameWinner() != null) {
             if (isGameWinner() == userSymbol) {
@@ -162,7 +147,6 @@ public class GameEngine {
             System.out.println("Draw!");
         }
     }
-
     public Symbol isGameWinner() {
         if (isGameOverHorizontal(Symbol.X) || isGameOverVertical(Symbol.X) || isGameOverSlant(Symbol.X)) {
             return Symbol.X;
@@ -187,7 +171,6 @@ public class GameEngine {
         }
         return false;
     }
-
     public boolean isGameOverHorizontal(Symbol symbol) {
 
         for (int y = 0; y < Board.BOARD_SIZE; y++) {
@@ -203,25 +186,20 @@ public class GameEngine {
         }
         return false;
     }
-
     public boolean isGameOverSlant(Symbol symbol) {
         return (board.getSymbol(0, 0) == symbol && board.getSymbol(1, 1) == symbol && board.getSymbol(2, 2) == symbol) ||
                 (board.getSymbol(2, 0) == symbol && board.getSymbol(1, 1) == symbol && board.getSymbol(0, 2) == symbol);
     }
-
     public void saveGame(){
         try {
             FileWriter fileWriter = new FileWriter(savedHashMaps);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(mapToJson(board));
             bufferedWriter.close();
-            //ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(savedHashMaps));
-            //oos.writeObject(mapToJson(board));
-            //oos.close();
         }catch (Exception e){
+            System.out.println("Exception: "+e);
         }
     }
-
     public Board loadGame(){
         try {
             FileReader fileReader = new FileReader(savedHashMaps);
@@ -243,16 +221,11 @@ public class GameEngine {
         Gson gson = new GsonBuilder()
                 .serializeNulls()
                 .create();
-        //String x = gson.toJson(board);
-        //System.out.println("Gson " + x);
         return gson.toJson(board);
     }
-
-
     public Symbol getUserSymbol() {
         return userSymbol;
     }
-
     public Symbol getPlayerTwoSymbol() {
         return playerTwoSymbol;
     }
