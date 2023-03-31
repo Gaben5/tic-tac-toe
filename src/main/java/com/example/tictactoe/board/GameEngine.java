@@ -41,7 +41,7 @@ public class GameEngine {
                 board.setPlayer2Symbol(playerTwoSymbol);
             }
             case 2 -> {
-                board = loadGame(); //naprawic tu cos
+                board = loadGame();
                 boardUI = new BoardUI(board);
                 userSymbol = board.getPlayer1Symbol();
                 playerTwoSymbol = board.getPlayer2Symbol();
